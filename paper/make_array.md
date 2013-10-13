@@ -39,9 +39,10 @@ is well-formed (with additional `static_cast`s applied inside) because
 
 is well-formed.
 
-This paper intends to provide `std::array` creation interfaces which are
+This paper intends to provide a set of `std::array` creation interfaces
+which are
 comprehensive from both `tuple`'s point of view and `array`'s point of
-view, so narrowing is just naturally baned.  You can find more details
+view, so narrowing is just naturally baned.  See more details
 driven by this direction in [Design Decisions](#design_decisions).
 
 ## Examples
@@ -55,15 +56,15 @@ driven by this direction in [Design Decisions](#design_decisions).
 - No array-to-pointer conversion.  `make_tuple` and `make_pair`
   unconditionally decay, but such a behavior, if being applied to `make_array`,
 
-<div><tt>&nbsp;&nbsp;&nbsp;&nbsp;make_array("raw array")&nbsp;
-// got array&lt;char const&#42;, 1&gt;</tt></div>
+<div><div><tt>make_array("raw array")&nbsp;
+// got array&lt;char const&#42;, 1&gt;</tt></div></div>
 
 > is unexpected and inexplicable.
 
 - Ban `reference_wrapper`.  `make_tuple` and `make_pair` have special handling
   of `reference_wrapper`, then user might expect that the expression
 
-<div><tt>&nbsp;&nbsp;&nbsp;&nbsp;make_array(ref(a), ref(b))</tt></div>
+<div><div><tt>make_array(ref(a), ref(b))</tt></div></div>
 
 > also results in a tuple-like object storing `T&`.  However, `std::array`
 > does not store "real" references, and any attempts to workaround this
