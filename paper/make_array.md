@@ -24,7 +24,7 @@ deduce both element type and array bound.
 
 ## Scope
 
-LWG issue [851](http://cplusplus.github.io/LWG/lwg-closed.html#851) intended
+[LWG 851](http://cplusplus.github.io/LWG/lwg-closed.html#851) intended
 to provide a replacement syntax to
 
     array<T, N> a = { E1, E2, ... };
@@ -53,6 +53,70 @@ driven by this direction in [Design Decisions](#design_decisions).
 ## Design Decisions
 
 ## Wording
+
+This wording is relative to the upcoming WD, which contains
+the resolution of
+[LWG 2141](http://cplusplus.github.io/LWG/lwg-defects.html#2141).
+
+Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
+
+    namespace std {
+      template <class T, size_t N > struct array;
+> ...
+
+      template <class T, size_t N >
+        void swap(array<T,N>& x, array<T,N>& y) noexcept(noexcept(x.swap(y)));
+<div><ins>
+<tt>template &lt;class... Types&gt;</tt></br>
+<tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(Types&amp;&amp;...);</tt></br>
+<tt>template &lt;class T, size_t N&gt;</tt></br>
+<tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(T (&amp;a)&#91;N&#93;);</tt></br>
+</ins></div>
+
+> ...
+
+    }
+
+New section 23.3.2.9 &#91;array.creation&#93; (between &#91;array.zero&#93;
+and &#91;array.tuple&#93;, which was 23.3.2.9):
+
+> #### 23.3.2.9 Array creation functions &#91;array.creation&#93;
+
+    template <class... Types>
+      constexpr array<CT, sizeof...(Types)> make_array(Types&&...);
+
+> Let _`Ui`_ be `remove_reference<`_`Ti`_`>::type` for each _`Ti`_ in `Types`.
+
+> *Remarks:* This function shall not participate in overload resolution
+> unless each _`Ui`_ is neither an array nor `reference_wrapper<`_`Ti`_`>`.
+
+*\[Editorial note:* Yield the array to pointer conversion interface to
+ constructing from raw array.  `std::array` can't store `X&` like tuple
+ and pair.  *--end note\]*
+
+> *Returns:* An `array<CT, sizeof...(Types)>` initialized with
+> `{ std::forward<Types>(t))... }`,
+> where `CT` is `common_type<Types...>::type`.
+
+> *\[Example:*
+
+        int i = 1; int& ri = i;
+        make_array(i, ri, 42L)
+
+>  creates an `array` of type
+
+        array<long, 3>
+
+> *--end example\]*
+
+    template <class T, size_t N>
+      constexpr array<V, N> make_array(T (&a)[N]);
+
+> *Returns:* An `array<V, N>` such that each element is copy-initialized
+> with the corresponding element of `a`, where `V` is `remove_cv<T>::type`.
+
+*\[Editorial note: `remove_cv` here effectively simulates decay, while
+ intentionally kills constructing from multidimensional array.  --end note\]*
 
 ## Sample Implementation
 
