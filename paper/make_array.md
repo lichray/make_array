@@ -124,3 +124,6 @@ A sample implementation is available at
 <https://gist.github.com/lichray/6034753>.
 
 ## Acknowledgments
+
+Jonathan Wakely, who showed me how to use `index_sequence` to initialize
+`std::array` from a raw array.
