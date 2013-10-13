@@ -52,6 +52,26 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 ## Design Decisions
 
+- No array-to-pointer conversion.  `make_tuple` and `make_pair`
+  unconditionally decay, but such a behavior, if being applied to `make_array`,
+
+<div><tt>&nbsp;&nbsp;&nbsp;&nbsp;make_array("raw array")&nbsp;
+// got array&lt;char const&#42;, 1&gt;</tt></div>
+
+> is unexpected and inexplicable.
+
+- Ban `reference_wrapper`.  `make_tuple` and `make_pair` have special handling
+  of `reference_wrapper`, then user might expect that the expression
+
+<div><tt>&nbsp;&nbsp;&nbsp;&nbsp;make_array(ref(a), ref(b))</tt></div>
+
+> also results in a tuple-like object storing `T&`.  However, `std::array`
+> does not store "real" references, and any attempts to workaround this
+> break the interfaces in different ways.
+
+- Yield the array-to-pointer interface to constructing from raw array.  So
+  user get the expected result when "making an array from an array".
+
 ## Wording
 
 This wording is relative to the upcoming WD, which contains
@@ -90,9 +110,8 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 > *Remarks:* This function shall not participate in overload resolution
 > unless each _`Ui`_ is neither an array nor `reference_wrapper<`_`Ti`_`>`.
 
-*\[Editorial note:* Yield the array to pointer conversion interface to
- constructing from raw array.  `std::array` can't store `X&` like tuple
- and pair.  *--end note\]*
+*\[Editorial note:* These two cases are banned for genericity reasons, so
+use SFINAE to allow users to handle them in generic code.  *--end note\]*
 
 > *Returns:* An `array<CT, sizeof...(Types)>` initialized with
 > `{ std::forward<Types>(t))... }`,
@@ -115,8 +134,11 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 > *Returns:* An `array<V, N>` such that each element is copy-initialized
 > with the corresponding element of `a`, where `V` is `remove_cv<T>::type`.
 
-*\[Editorial note: `remove_cv` here effectively simulates decay, while
- intentionally kills constructing from multidimensional array.  --end note\]*
+*\[Editorial note:* The `remove_cv` here functionally performs decay, while
+ intentionally kills constructing from multidimensional array with a hard
+error, because `std::array` is not aware of multidimensional array (yet), and
+I don't want user to try anything may silently break their code in the future.
+*--end note\]*
 
 ## Sample Implementation
 
