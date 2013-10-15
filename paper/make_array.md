@@ -75,7 +75,7 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 ## Wording
 
-This wording is relative to the upcoming WD, which contains
+This wording is relative to N3797, which contains
 the resolution of
 [LWG 2141](http://cplusplus.github.io/LWG/lwg-defects.html#2141).
 
