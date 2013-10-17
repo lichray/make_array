@@ -59,8 +59,8 @@ driven by this direction in [Design Decisions](#design_decisions).
 - Provide both `make_tuple`-like, type-deduced interface and raw array
   style bound-deduced interface.
 
-- Ban `reference_wrapper` in `make_tuple`-like interface.  `make_tuple` and
-  `make_pair` have special handling
+- Ban `reference_wrapper` in the `make_tuple`-like interface.  `make_tuple`
+  and `make_pair` have special handling
   of `reference_wrapper`, then user might expect that the expression
 
 <div><div><tt>make_array(ref(a), ref(b))</tt></div></div>
@@ -71,13 +71,14 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 - A saperated interface to perform constructing from raw array instead of
   array-to-pointer conversion.  `make_tuple` and `make_pair`
-  unconditionally decay, but such a behavior, if being applied to `make_array`,
+  unconditionally decay, but such a behavior, when being applied to
+  `make_array`,
 
 <div><div><tt>make_array("raw array")&nbsp;
 // got array&lt;char const&#42;, 1&gt;</tt></div></div>
 
 > is inexplicable.  However, to keep the interfaces consistent, I decide
-> to name a new utility differently instead of ban this conversion.
+> to name a new utility differently instead of to ban this conversion.
 
 ## Wording
 
@@ -117,7 +118,7 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 > *Remarks:* This function shall not participate in overload resolution
 > unless each _`Ui`_ is not `reference_wrapper<`_`Ti`_`>` when `D` is void.
 
-*\[Editorial note:* This one is banned for genericity reason, so
+*\[Just a note:* This one is banned for genericity reason, so
 use SFINAE to allow users to handle them in generic code.  *--end note\]*
 
 > *Returns:* An `array<V, sizeof...(Types)>` initialized with
@@ -141,7 +142,7 @@ use SFINAE to allow users to handle them in generic code.  *--end note\]*
 > *Returns:* An `array<V, N>` such that each element is copy-initialized
 > with the corresponding element of `a`, where `V` is `remove_cv<T>::type`.
 
-*\[Editorial note:* The `remove_cv` here functionally performs decay, while
+*\[Just a note:* The `remove_cv` here functionally performs decay, while
 intentionally kills constructing from multidimensional array with a hard
 error, because `std::array` is not aware of multidimensional array (yet), and
 I don't want user to try anything may silently break their code in the future.
