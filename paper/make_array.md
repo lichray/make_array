@@ -47,12 +47,27 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 ## Examples
 
-    auto a1 = make_array(2, 3L);  // array<long, 2>
-    // auto ax = make_array(2, 3U);  // no narrowing
-    auto a2 = make_array("foo");  // array<char const*, 1>, decayed
-    auto a3 = to_array("foo");  // array<char, 4>
+    auto a1 = make_array(2, 3L);        // array<long, 2>
+    auto a2 = make_array<long>(2, 3U);  // explicit destination type
+    // auto ax = make_array(2, 3U);     // error: narrowing
+    // auto ax = make_array<unsigned>(2, 3U);  // ditto
+    auto a3 = make_array("foo");        // array<char const*, 1>, decayed
+    auto a4 = to_array("foo");          // array<char, 4>
 
 ## Design Decisions
+
+- Provide both `make_tuple`-like, type-deduced interface and raw array
+  style bound-deduced interface.
+
+- Ban `reference_wrapper` in `make_tuple`-like interface.  `make_tuple` and
+  `make_pair` have special handling
+  of `reference_wrapper`, then user might expect that the expression
+
+<div><div><tt>make_array(ref(a), ref(b))</tt></div></div>
+
+> also results in a tuple-like object storing `T&`.  However, `std::array`
+> does not store "real" references, and any attempts to workaround this
+> break the interfaces in different ways.
 
 - A saperated interface to perform constructing from raw array instead of
   array-to-pointer conversion.  `make_tuple` and `make_pair`
@@ -63,15 +78,6 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 > is inexplicable.  However, to keep the interfaces consistent, I decide
 > to name a new utility differently instead of ban this conversion.
-
-- Ban `reference_wrapper`.  `make_tuple` and `make_pair` have special handling
-  of `reference_wrapper`, then user might expect that the expression
-
-<div><div><tt>make_array(ref(a), ref(b))</tt></div></div>
-
-> also results in a tuple-like object storing `T&`.  However, `std::array`
-> does not store "real" references, and any attempts to workaround this
-> break the interfaces in different ways.
 
 ## Wording
 
