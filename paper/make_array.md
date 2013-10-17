@@ -136,9 +136,15 @@ use SFINAE to allow users to handle them in generic code.  *--end note\]*
 > with the corresponding element of `a`, where `V` is `remove_cv<T>::type`.
 
 *\[Editorial note:* The `remove_cv` here functionally performs decay, while
- intentionally kills constructing from multidimensional array with a hard
+intentionally kills constructing from multidimensional array with a hard
 error, because `std::array` is not aware of multidimensional array (yet), and
 I don't want user to try anything may silently break their code in the future.
+On the other hand, if you understand multidimensional `std::array` as `array`
+of `array`s, it might be more convenient and clear to write
+
+    make_array(make_array(1, 2, 3), make_array(4, 5, 6)...)
+
+instead of to adapt a raw array.
 *--end note\]*
 
 ## Sample Implementation
