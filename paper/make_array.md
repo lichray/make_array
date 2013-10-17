@@ -162,3 +162,7 @@ A sample implementation is available at
 
 Jonathan Wakely, who showed me how to use `index_sequence` to initialize
 `std::array` from a raw array.
+
+Daniel Krügler, who explained why an explicit destination type is essential.
+
+Ville Voutilainen and other people who helped review this paper.
