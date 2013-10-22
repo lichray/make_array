@@ -95,7 +95,7 @@ Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
       template <class T, size_t N >
         void swap(array<T,N>& x, array<T,N>& y) noexcept(noexcept(x.swap(y)));
 <div><ins>
-<tt>template &lt;class D = void, class... Types&gt;</tt></br>
+<tt>template &lt;class... Types&gt;</tt></br>
 <tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(Types&amp;&amp;...);</tt></br>
 <tt>template &lt;class T, size_t N&gt;</tt></br>
 <tt>&nbsp;&nbsp;constexpr <i>see below</i> to_array(T (&amp;a)&#91;N&#93;);</tt></br>
@@ -110,29 +110,29 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 
 > #### 23.3.2.9 Array creation functions &#91;array.creation&#93;
 
-    template <class D = void, class... Types>
-      constexpr array<V, sizeof...(Types)> make_array(Types&&...);
+    template <class... Types>
+      constexpr array<CT, sizeof...(Types)> make_array(Types&&...);
 
 > Let _`Ui`_ be `remove_reference<`_`Ti`_`>::type` for each _`Ti`_ in `Types`.
 
 > *Remarks:* This function shall not participate in overload resolution
-> unless each _`Ui`_ is not `reference_wrapper<`_`Ti`_`>` when `D` is void.
+> unless each _`Ui`_ is not `reference_wrapper<`_`Ti`_`>`.
 
 *\[Just a note:* This one is banned for genericity reason, so
 use SFINAE to allow users to handle them in generic code.  *--end note\]*
 
-> *Returns:* An `array<V, sizeof...(Types)>` initialized with
+> *Returns:* An `array<CT, sizeof...(Types)>` initialized with
 > `{ std::forward<Types>(t))... }`,
-> where `V` is `common_type<Types...>::type` if `D` is `void`, otherwise `V`
-> is `D`.
+> where `CT` is `common_type<Types...>::type`.
 
 > *\[Example:*
 
         int i = 1; int& ri = i;
-        auto a1 = make_array(i, ri);         // a1 is of type array<int, 2>
-        auto a2 = make_array(i, ri, 42L);    // a2 is of type array<long, 3>
-        auto a3 = make_array<long>(i, ri);   // a3 is of type array<long, 2>
-        auto a4 = make_array<long>();        // a4 is of type array<long, 0>
+        make_array(i, ri, 42L)
+
+>  creates an `array` of type
+
+        array<long, 3>
 
 > *--end example\]*
 
