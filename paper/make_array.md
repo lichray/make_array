@@ -9,7 +9,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 
 <table><tbody>
 <tr><th>Doc. no.:</th>	<td>D3824</td></tr>
-<tr><th>Date:</th>	<td>2013-10-16</td></tr>
+<tr><th>Date:</th>	<td>2013-10-22</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Evolution Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
@@ -97,6 +97,8 @@ Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
 <div><ins>
 <tt>template &lt;class... Types&gt;</tt></br>
 <tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(Types&amp;&amp;...);</tt></br>
+<tt>template &lt;class D, class... Types&gt;</tt></br>
+<tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(Types&amp;&amp;...);</tt></br>
 <tt>template &lt;class T, size_t N&gt;</tt></br>
 <tt>&nbsp;&nbsp;constexpr <i>see below</i> to_array(T (&amp;a)&#91;N&#93;);</tt></br>
 </ins></div>
@@ -135,6 +137,12 @@ use SFINAE to allow users to handle them in generic code.  *--end note\]*
         array<long, 3>
 
 > *--end example\]*
+
+    template <class D, class... Types>
+      constexpr array<D, sizeof...(Types)> make_array(Types&&...);
+
+> *Returns:* An `array<D, sizeof...(Types)>` initialized with
+> `{ std::forward<Types>(t))... }`.
 
     template <class T, size_t N>
       constexpr array<V, N> to_array(T (&a)[N]);
