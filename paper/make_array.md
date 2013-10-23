@@ -8,7 +8,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 </style>
 
 <table><tbody>
-<tr><th>Doc. no.:</th>	<td>D3824</td></tr>
+<tr><th>Doc. no.:</th>	<td>N3824</td></tr>
 <tr><th>Date:</th>	<td>2013-10-22</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Evolution Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
@@ -42,15 +42,17 @@ is well-formed.
 This paper intends to provide a set of `std::array` creation interfaces
 which are
 comprehensive from both `tuple`'s point of view and `array`'s point of
-view, so narrowing is just naturally baned.  See more details
+view, so narrowing is just naturally banned.  See more details
 driven by this direction in [Design Decisions](#design_decisions).
 
 ## Examples
 
     auto a1 = make_array(2, 3L);        // array<long, 2>
-    auto a2 = make_array<long>(2, 3U);  // explicit destination type
-    // auto ax = make_array(2, 3U);     // error: narrowing
-    // auto ax = make_array<unsigned>(2, 3U);  // ditto
+    auto ax = make_array(2, 3U);        // error: narrowing
+
+    auto a2 = make_array<long>(2, 3U);      // explicit destination type
+    auto ax = make_array<unsigned>(2, 3U);  // error: narrowing
+
     auto a3 = make_array("foo");        // array<char const*, 1>, decayed
     auto a4 = to_array("foo");          // array<char, 4>
 
@@ -169,9 +171,9 @@ A sample implementation is available at
 
 ## Acknowledgments
 
-Jonathan Wakely, who showed me how to use `index_sequence` to initialize
+Jonathan Wakely, who showed me how `index_sequence` helps initializing
 `std::array` from a raw array.
 
 Daniel Krügler, who explained why an explicit destination type is essential.
 
-Ville Voutilainen and other people who helped review this paper.
+Ville Voutilainen and other people who reviewed this paper.
