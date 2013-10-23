@@ -8,7 +8,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 </style>
 
 <table><tbody>
-<tr><th>Doc. no.:</th>	<td>N3824</td></tr>
+<tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
 <tr><th>Date:</th>	<td>2013-10-22</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Evolution Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
@@ -125,8 +125,7 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 *\[Just a note:* This one is banned for genericity reason, so
 use SFINAE to allow users to handle them in generic code.  *--end note\]*
 
-> *Returns:* An `array<CT, sizeof...(Types)>` initialized with
-> `{ std::forward<Types>(t))... }`,
+> *Returns:* `array<CT, sizeof...(Types)>{ std::forward<Types>(t))... }`,
 > where `CT` is `common_type<Types...>::type`.
 
 > *\[Example:*
@@ -143,8 +142,7 @@ use SFINAE to allow users to handle them in generic code.  *--end note\]*
     template <class D, class... Types>
       constexpr array<D, sizeof...(Types)> make_array(Types&&...);
 
-> *Returns:* An `array<D, sizeof...(Types)>` initialized with
-> `{ std::forward<Types>(t))... }`.
+> *Returns:* `array<D, sizeof...(Types)>{ std::forward<Types>(t))... }`.
 
     template <class T, size_t N>
       constexpr array<V, N> to_array(T (&a)[N]);
