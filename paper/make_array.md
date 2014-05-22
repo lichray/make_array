@@ -70,6 +70,9 @@ driven by this direction in [Design Decisions](#design_decisions).
 > also results in a tuple-like object storing `T&`.  However, `std::array`
 > does not store "real" references, and any attempts to workaround this
 > break the interfaces in different ways.
+> Note that "doing nothing" is not an option since, for example,
+> `common_type_t<reference_wrapper<int>, reference_wrapper<long>>` is
+> `long`, not reference or `reference_wrapper`.
 
 - A saperated interface to perform constructing from raw array instead of
   array-to-pointer conversion.  `make_tuple` and `make_pair`
