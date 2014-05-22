@@ -16,6 +16,11 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 
 # make_array, revision 1
 
+## Changes since N3824
+
+- Editorial wording updates.
+- Comments updates.
+
 ## Motivation
 
 We have `make_tuple`, `make_pair`, but not `make_array`, while `std::array`
