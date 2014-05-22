@@ -9,12 +9,12 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 
 <table><tbody>
 <tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
-<tr><th>Date:</th>	<td>2013-10-22</td></tr>
-<tr><th>Project:</th>	<td>Programming Language C++, Library Evolution Working Group</td></tr>
+<tr><th>Date:</th>	<td>2014-05-22</td></tr>
+<tr><th>Project:</th>	<td>Programming Language C++, Library Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
 
-# make_array
+# make_array, revision 1
 
 ## Motivation
 
@@ -84,9 +84,7 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 ## Wording
 
-This wording is relative to N3797, which contains
-the resolution of
-[LWG 2141](http://cplusplus.github.io/LWG/lwg-defects.html#2141).
+This wording is relative to N3936.
 
 Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
 
@@ -122,8 +120,8 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 > *Remarks:* This function shall not participate in overload resolution
 > unless each _`Ui`_ is not `reference_wrapper<`_`Ti`_`>`.
 
-*\[Just a note:* This one is banned for genericity reason, so
-use SFINAE to allow users to handle them in generic code.  *--end note\]*
+*\[Author's note:* We allow users to detect and handle this case.
+*--end note\]*
 
 > *Returns:* `array<CT, sizeof...(Types)>{ std::forward<Types>(t))... }`,
 > where `CT` is `common_type<Types...>::type`.
@@ -150,11 +148,12 @@ use SFINAE to allow users to handle them in generic code.  *--end note\]*
 > *Returns:* An `array<V, N>` such that each element is copy-initialized
 > with the corresponding element of `a`, where `V` is `remove_cv<T>::type`.
 
-*\[Just a note:* The `remove_cv` here functionally performs decay, while
-intentionally kills constructing from multidimensional array with a hard
-error, because `std::array` is not aware of multidimensional array (yet), and
-I don't want user to try anything may silently break their code in the future.
-On the other hand, if you understand multidimensional `std::array` as `array`
+*\[Author's note:* If `std::array` is extended to support multidimensional
+array
+([N3794](http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3794.html)),
+this function might get extended as well, but we don't let users to roll
+their own.  On the other hand, if users understand multidimensional
+`std::array` as `array`
 of `array`s, it might be more convenient and clear to write
 
     make_array(make_array(1, 2, 3), make_array(4, 5, 6)...)
