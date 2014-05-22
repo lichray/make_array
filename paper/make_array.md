@@ -115,16 +115,16 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
     template <class... Types>
       constexpr array<CT, sizeof...(Types)> make_array(Types&&...);
 
-> Let _`Ui`_ be `remove_reference<`_`Ti`_`>::type` for each _`Ti`_ in `Types`.
+> Let _Ui_ be `remove_reference_t<`_Ti_`>` for each _Ti_ in `Types`.
 
 > *Remarks:* This function shall not participate in overload resolution
-> unless each _`Ui`_ is not `reference_wrapper<`_`Ti`_`>`.
+> unless _Ui_ is not `reference_wrapper<`_Ti_`>` for all _i_.
 
 *\[Author's note:* We allow users to detect and handle this case.
 *--end note\]*
 
 > *Returns:* `array<CT, sizeof...(Types)>{ std::forward<Types>(t))... }`,
-> where `CT` is `common_type<Types...>::type`.
+> where `CT` is `common_type_t<Types...>`.
 
 > *\[Example:*
 
@@ -146,7 +146,7 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
       constexpr array<V, N> to_array(T (&a)[N]);
 
 > *Returns:* An `array<V, N>` such that each element is copy-initialized
-> with the corresponding element of `a`, where `V` is `remove_cv<T>::type`.
+> with the corresponding element of `a`, where `V` is `remove_cv_t<T>`.
 
 *\[Author's note:* If `std::array` is extended to support multidimensional
 array
