@@ -123,7 +123,7 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
     template <class... Types>
       constexpr array<CT, sizeof...(Types)> make_array(Types&&...);
 
-> Let _Ui_ be `remove_reference_t<`_Ti_`>` for each _Ti_ in `Types`.
+> Let _Ui_ be `decay_t<`_Ti_`>` for each _Ti_ in `Types`.
 
 > *Remarks:* This function shall not participate in overload resolution
 > unless _Ui_ is not `reference_wrapper<`_Ti_`>` for all _i_.
