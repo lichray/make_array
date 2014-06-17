@@ -8,7 +8,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 </style>
 
 <table><tbody>
-<tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
+<tr><th>Doc. no.:</th>	<td>N4031</td></tr>
 <tr><th>Date:</th>	<td>2014-05-22</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
