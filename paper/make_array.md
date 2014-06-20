@@ -8,8 +8,8 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 </style>
 
 <table><tbody>
-<tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
-<tr><th>Date:</th>	<td>2014-06-17</td></tr>
+<tr><th>Doc. no.:</th>	<td>Dnnnn</td></tr>
+<tr><th>Date:</th>	<td>2014-06-20</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
@@ -18,6 +18,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 
 ## Changes since N4031
 
+- Two `make_array` overloads merged into one.
 - Fixed _cv_-`reference_wrapper<T>` detection.
 
 ## Changes since N3824
@@ -169,7 +170,7 @@ instead of to adapt a raw array.
 ## Sample Implementation
 
 A sample implementation is available at
-<https://gist.github.com/lichray/6034753>.
+<https://gist.github.com/lichray/6034753/337240ea9777c5118ba3430c5198c2d0d4f81a03>.
 
 ## Acknowledgments
 
@@ -179,3 +180,6 @@ Jonathan Wakely, who showed me how `index_sequence` helps initializing
 Daniel Krügler, who explained why an explicit destination type is essential.
 
 Ville Voutilainen and other people who reviewed this paper.
+
+Stephan T. Lavavej, who pointed out the ambiguity issue of the two make_array
+overloads.
