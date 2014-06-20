@@ -59,8 +59,8 @@ driven by this direction in [Design Decisions](#design_decisions).
     auto a1 = make_array(2, 3L);        // array<long, 2>
     auto ax = make_array(2, 3U);        // error: narrowing
 
-    auto a2 = make_array<long>(2, 3U);      // explicit destination type
-    auto ax = make_array<unsigned>(2, 3U);  // error: narrowing
+    auto a2 = array_of<long>(2, 3U);      // explicit destination type
+    auto ax = array_of<unsigned>(2, 3U);  // error: narrowing
 
     auto a3 = make_array("foo");        // array<char const*, 1>, decayed
     auto a4 = to_array("foo");          // array<char, 4>
@@ -110,7 +110,7 @@ Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
 <tt>template &lt;class... Types&gt;</tt></br>
 <tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(Types&amp;&amp;...);</tt></br>
 <tt>template &lt;class D, class... Types&gt;</tt></br>
-<tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(Types&amp;&amp;...);</tt></br>
+<tt>&nbsp;&nbsp;constexpr <i>see below</i> array_of(Types&amp;&amp;...);</tt></br>
 <tt>template &lt;class T, size_t N&gt;</tt></br>
 <tt>&nbsp;&nbsp;constexpr <i>see below</i> to_array(T (&amp;a)&#91;N&#93;);</tt></br>
 </ins></div>
@@ -150,7 +150,7 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 > *--end example\]*
 
     template <class D, class... Types>
-      constexpr array<D, sizeof...(Types)> make_array(Types&&...);
+      constexpr array<D, sizeof...(Types)> array_of(Types&&...);
 
 > *Returns:* `array<D, sizeof...(Types)>{ std::forward<Types>(t))... }`.
 
