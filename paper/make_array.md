@@ -8,8 +8,8 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 </style>
 
 <table><tbody>
-<tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
-<tr><th>Date:</th>	<td>2014-06-17</td></tr>
+<tr><th>Doc. no.:</th>	<td>Dnnnn</td></tr>
+<tr><th>Date:</th>	<td>2014-06-20</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
@@ -18,6 +18,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 
 ## Changes since N4031
 
+- `make_array<D>` renamed to `array_of<D>`.
 - Fixed _cv_-`reference_wrapper<T>` detection.
 
 ## Changes since N3824
@@ -186,3 +187,6 @@ Jonathan Wakely, who showed me how `index_sequence` helps initializing
 Daniel Krügler, who explained why an explicit destination type is essential.
 
 Ville Voutilainen and other people who reviewed this paper.
+
+Stephan T. Lavavej, who pointed out the ambiguity issue of the two `make_array`
+overloads, and came with with the naming "`*_of`".
