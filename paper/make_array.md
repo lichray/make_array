@@ -8,8 +8,8 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 </style>
 
 <table><tbody>
-<tr><th>Doc. no.:</th>	<td>Dnnnn</td></tr>
-<tr><th>Date:</th>	<td>2014-06-20</td></tr>
+<tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
+<tr><th>Date:</th>	<td>2014-11-07</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
@@ -97,7 +97,7 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 ## Wording
 
-This wording is relative to N3936.
+This wording is relative to N4140.
 
 Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
 
@@ -128,8 +128,8 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 
 > Let _Ui_ be `decay_t<`_Ti_`>` for each _Ti_ in `Types`.
 
-> *Remarks:* This function shall not participate in overload resolution
-> unless _Ui_ is not `reference_wrapper<`_Ti_`>` for all _i_ if `D` is `void`.
+> *Remarks:* When `D` is `void`, this function shall not participate in
+> overload resolution if _Ui_ is `reference_wrapper<`_Ti_`>` for some _i_.
 
 *\[Author's note:* We allow users to detect and handle this case.
 *--end note\]*
