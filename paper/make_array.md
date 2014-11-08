@@ -14,11 +14,15 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
 
-# make_array, revision 2
+# make_array, revision 3
+
+## Changes since N4065
+
+- Merge `make_array` and `array_of` into one.
 
 ## Changes since N4031
 
-- Two `make_array` overloads merged into one.
+- `make_array<D>` renamed to `array_of<D>`.
 - Fixed _cv_-`reference_wrapper<T>` detection.
 
 ## Changes since N3824
