@@ -19,6 +19,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 ## Changes since N4065
 
 - Merge `make_array` and `array_of` into one.
+- Cleanup notes for presentation.
 
 ## Changes since N4031
 
@@ -135,11 +136,8 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 > *Remarks:* When `D` is `void`, this function shall not participate in
 > overload resolution if _Ui_ is `reference_wrapper<`_Ti_`>` for some _i_.
 
-*\[Author's note:* We allow users to detect and handle this case.
-*--end note\]*
-
 > *Returns:* `array<D, sizeof...(Types)>{ std::forward<Types>(t))... }`,
-> where `V` is `common_type<Types...>::type` if `D` is `void`, otherwise `V`
+> where `V` is `common_type_t<Types...>` if `D` is `void`, otherwise `V`
 > is `D`.
 
 > *\[Example:*
@@ -157,19 +155,6 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 
 > *Returns:* An `array<V, N>` such that each element is copy-initialized
 > with the corresponding element of `a`, where `V` is `remove_cv_t<T>`.
-
-*\[Author's note:* If `std::array` is extended to support multidimensional
-array
-([N3794](http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3794.html)),
-this function might get extended as well, but we don't let users to roll
-their own.  On the other hand, if users understand multidimensional
-`std::array` as `array`
-of `array`s, it might be more convenient and clear to write
-
-    make_array(make_array(1, 2, 3), make_array(4, 5, 6)...)
-
-instead of to adapt a raw array.
-*--end note\]*
 
 ## Sample Implementation
 
