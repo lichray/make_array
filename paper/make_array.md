@@ -19,7 +19,8 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 ## Changes since N4315
 
 - Ill-form the program if the input contains `reference_wrapper`.
-- Fix a typo.
+- Drop _see below_ in favor of placeholder types in the synopsis.
+- Fix typos and formatting.
 
 ## Changes since N4065
 
@@ -119,9 +120,11 @@ Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
         void swap(array<T,N>& x, array<T,N>& y) noexcept(noexcept(x.swap(y)));
 <div><ins>
 <tt>template &lt;class D = void, class... Types&gt;</tt></br>
-<tt>&nbsp;&nbsp;constexpr <i>see below</i> make_array(Types&amp;&amp;...);</tt></br>
+<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, sizeof...(Types)&gt;
+make_array(Types&amp;&amp;...);</tt></br>
 <tt>template &lt;class T, size_t N&gt;</tt></br>
-<tt>&nbsp;&nbsp;constexpr <i>see below</i> to_array(T (&amp;a)&#91;N&#93;);</tt></br>
+<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, N&gt;
+to_array(T (&amp;a)&#91;N&#93;);</tt></br>
 </ins></div>
 
 > ...
@@ -133,16 +136,19 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 
 > #### 23.3.2.9 Array creation functions &#91;array.creation&#93;
 
-    template <class D = void, class... Types>
-      constexpr array<V, sizeof...(Types)> make_array(Types&&...);
+<div>
+<tt>template &lt;class D = void, class... Types&gt;</tt></br>
+<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, sizeof...(Types)&gt;
+make_array(Types&amp;&amp;...);</tt></br>
+</div>
 
 > Let _Ui_ be `decay_t<`_Ti_`>` for each _Ti_ in `Types`.
 
 > *Requires:* When `D` is `void`,
-> _Ui_ is not `reference_wrapper<`_Ti_`>` for all _i_.
+> for all _i_, _Ui_ shall not be `reference_wrapper<`_Ti_`>`.
 > Otherwise, the program is ill-formed.
 
-> *Returns:* `array<V, sizeof...(Types)>{ std::forward<Types>(t))... }`,
+> *Returns:* `array<V, sizeof...(Types)>{ std::forward<Types>(t)... }`,
 > where `V` is `common_type_t<Types...>` if `D` is `void`, otherwise `V`
 > is `D`.
 
@@ -156,8 +162,11 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 
 > *--end example\]*
 
-    template <class T, size_t N>
-      constexpr array<V, N> to_array(T (&a)[N]);
+<div>
+<tt>template &lt;class T, size_t N&gt;</tt></br>
+<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, N&gt;
+to_array(T (&amp;a)&#91;N&#93;);</tt></br>
+</div>
 
 > *Returns:* An `array<V, N>` such that each element is copy-initialized
 > with the corresponding element of `a`, where `V` is `remove_cv_t<T>`.
