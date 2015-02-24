@@ -9,12 +9,17 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 
 <table><tbody>
 <tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
-<tr><th>Date:</th>	<td>2014-11-07</td></tr>
+<tr><th>Date:</th>	<td>2015-02-24</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Working Group</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
 
-# make_array, revision 3
+# make_array, revision 4
+
+## Changes since N4315
+
+- Ill-form the program if the input contains `reference_wrapper`.
+- Fix a typo.
 
 ## Changes since N4065
 
@@ -102,7 +107,7 @@ driven by this direction in [Design Decisions](#design_decisions).
 
 ## Wording
 
-This wording is relative to N4140.
+This wording is relative to N4296.
 
 Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
 
@@ -133,10 +138,11 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 
 > Let _Ui_ be `decay_t<`_Ti_`>` for each _Ti_ in `Types`.
 
-> *Remarks:* When `D` is `void`, this function shall not participate in
-> overload resolution if _Ui_ is `reference_wrapper<`_Ti_`>` for some _i_.
+> *Requires:* When `D` is `void`,
+> _Ui_ is not `reference_wrapper<`_Ti_`>` for all _i_.
+> Otherwise, the program is ill-formed.
 
-> *Returns:* `array<D, sizeof...(Types)>{ std::forward<Types>(t))... }`,
+> *Returns:* `array<V, sizeof...(Types)>{ std::forward<Types>(t))... }`,
 > where `V` is `common_type_t<Types...>` if `D` is `void`, otherwise `V`
 > is `D`.
 
@@ -159,7 +165,7 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 ## Sample Implementation
 
 A sample implementation is available at
-<https://gist.github.com/lichray/6034753/337240ea9777c5118ba3430c5198c2d0d4f81a03>.
+<https://gist.github.com/lichray/6034753>.
 
 ## Acknowledgments
 
