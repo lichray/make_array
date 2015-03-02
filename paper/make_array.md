@@ -9,8 +9,9 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 
 <table><tbody>
 <tr><th>Doc. no.:</th>	<td>Nnnnn</td></tr>
-<tr><th>Date:</th>	<td>2015-02-24</td></tr>
+<tr><th>Date:</th>	<td>2015-02-26</td></tr>
 <tr><th>Project:</th>	<td>Programming Language C++, Library Working Group</td></tr>
+<tr><th>Revises:</th>	<td>N4315</td></tr>
 <tr><th>Reply-to:</th>	<td>Zhihao Yuan &lt;zy at miator dot net&gt;</td></tr>
 </tbody></table>
 
@@ -19,7 +20,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 ## Changes since N4315
 
 - Ill-form the program if the input contains `reference_wrapper`.
-- Drop _see below_ in favor of placeholder types in the synopsis.
+- Drop _see below_ in the synopsis.
 - Fix typos and formatting.
 
 ## Changes since N4065
@@ -120,10 +121,10 @@ Add to 23.3.1/2 &#91;sequences.general&#93;, `<array>` synopsis:
         void swap(array<T,N>& x, array<T,N>& y) noexcept(noexcept(x.swap(y)));
 <div><ins>
 <tt>template &lt;class D = void, class... Types&gt;</tt></br>
-<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, sizeof...(Types)&gt;
+<tt>&nbsp;&nbsp;constexpr array&lt;<i>VT</i>, sizeof...(Types)&gt;
 make_array(Types&amp;&amp;...);</tt></br>
 <tt>template &lt;class T, size_t N&gt;</tt></br>
-<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, N&gt;
+<tt>&nbsp;&nbsp;constexpr array&lt;remove_cv_t&lt;T&gt;, N&gt;
 to_array(T (&amp;a)&#91;N&#93;);</tt></br>
 </ins></div>
 
@@ -138,18 +139,17 @@ and &#91;array.tuple&#93;, which was 23.3.2.9):
 
 <div>
 <tt>template &lt;class D = void, class... Types&gt;</tt></br>
-<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, sizeof...(Types)&gt;
+<tt>&nbsp;&nbsp;constexpr array&lt;<i>VT</i>, sizeof...(Types)&gt;
 make_array(Types&amp;&amp;...);</tt></br>
 </div>
 
 > Let _Ui_ be `decay_t<`_Ti_`>` for each _Ti_ in `Types`.
 
-> *Requires:* When `D` is `void`,
-> for all _i_, _Ui_ shall not be `reference_wrapper<`_Ti_`>`.
-> Otherwise, the program is ill-formed.
+> *Remarks:* The program is ill-formed if `D` is `void`
+> and at least one _Ui_ is a specialization of `reference_wrapper`.
 
-> *Returns:* `array<V, sizeof...(Types)>{ std::forward<Types>(t)... }`,
-> where `V` is `common_type_t<Types...>` if `D` is `void`, otherwise `V`
+> *Returns:* `array<`_VT_`, sizeof...(Types)>{ std::forward<Types>(t)... }`,
+> where _VT_ is `common_type_t<Types...>` if `D` is `void`, otherwise _VT_
 > is `D`.
 
 > *\[Example:*
@@ -159,17 +159,24 @@ make_array(Types&amp;&amp;...);</tt></br>
         auto a2 = make_array(i, ri, 42L);    // a2 is of type array<long, 3>
         auto a3 = make_array<long>(i, ri);   // a3 is of type array<long, 2>
         auto a4 = make_array<long>();        // a4 is of type array<long, 0>
+        auto a5 = make_array();              // ill-formed
 
 > *--end example\]*
 
+*\[Editorial note:*
+The non-code text in the example above, such as "is of type", "ill-formed",
+should be in italic face.
+*\]*
+
 <div>
 <tt>template &lt;class T, size_t N&gt;</tt></br>
-<tt>&nbsp;&nbsp;constexpr array&lt;<i>V</i>, N&gt;
+<tt>&nbsp;&nbsp;constexpr array&lt;remove_cv_t&lt;T&gt;, N&gt;
 to_array(T (&amp;a)&#91;N&#93;);</tt></br>
 </div>
 
-> *Returns:* An `array<V, N>` such that each element is copy-initialized
-> with the corresponding element of `a`, where `V` is `remove_cv_t<T>`.
+> *Returns:* An `array<remove_cv_t<T>, N>` such that each element is
+> copy-initialized
+> with the corresponding element of `a`.
 
 ## Sample Implementation
 
