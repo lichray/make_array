@@ -23,7 +23,7 @@ Fundamentals v2 into the C++17 working paper, for the following reasons:
 
  1. This facility is useful, and has been replicated/reinvented in many
     places/codebases, also been an LWG issue since 2008`[2]`, while the design
-    adopted in TSv2 has the highest quality among those.
+    adopted in TSv2 is of the least controversial among those.
 
  2. The functionality is stable since the initial `make_array` paper`[3]`.
 
