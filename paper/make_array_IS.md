@@ -1,4 +1,4 @@
-<!-- maruku -o make_array_17.html make_array_17.md -->
+<!-- maruku -o make_array_IS.html make_array_IS.md -->
 
 <style type="text/css">
 pre code { display: block; margin-left: 2em; }
