@@ -22,7 +22,7 @@ del { text-decoration: line-through; background-color: #FFA0A0 }
 This paper proposes to adopt the "Array creation functions"`[1]` in Library
 Fundamentals v2 into the C++ working paper, for the following reasons:
 
- 1. This facility is useful, and has been replicated/reinvented in many
+ 1. These facilities are useful, and have been replicated/reinvented in many
     places/codebases, also been an LWG issue since 2008`[2]`, while the design
     adopted in TSv2 is of the least controversial among those.
 
